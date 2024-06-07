@@ -50,7 +50,7 @@ pub(crate) async fn periodic_sweep(
 	//
 	// There is no particular rush here, we just have to ensure funds are availably by the time we
 	// need to send funds.
-	let mut interval = tokio::time::interval(Duration::from_secs(60 * 60 * 24));
+	let mut interval = tokio::time::interval(Duration::from_secs(20));
 
 	loop {
 		interval.tick().await; // Note that the first tick completes immediately

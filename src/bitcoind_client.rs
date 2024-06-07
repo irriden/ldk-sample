@@ -92,6 +92,7 @@ impl BitcoindClient {
 		fees.insert(ConfirmationTarget::AnchorChannelFee, AtomicU32::new(MIN_FEERATE));
 		fees.insert(ConfirmationTarget::NonAnchorChannelFee, AtomicU32::new(2000));
 		fees.insert(ConfirmationTarget::ChannelCloseMinimum, AtomicU32::new(MIN_FEERATE));
+		fees.insert(ConfirmationTarget::OutputSpendingFee, AtomicU32::new(5000));
 
 		let client = Self {
 			bitcoind_rpc_client: Arc::new(bitcoind_rpc_client),

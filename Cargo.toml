@@ -8,7 +8,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-lightning = { path = "../rust-lightning/lightning", features = ["max_level_trace"] }
+lightning = { path = "../rust-lightning/lightning", features = ["max_level_trace","unsafe_revoked_tx_signing"] }
 lightning-block-sync = { path = "../rust-lightning/lightning-block-sync", features = [ "rpc-client", "tokio" ] }
 lightning-invoice = { path = "../rust-lightning/lightning-invoice" }
 lightning-net-tokio = { path = "../rust-lightning/lightning-net-tokio" }

@@ -304,14 +304,16 @@ impl BroadcasterInterface for BitcoindClient {
 					.call_method::<Txid>("sendrawtransaction", &vec![tx_json])
 					.await
 					{
-						Ok(_) => {}
+						Ok(o) => {
+                            println!("broadcasted this tx: {}", o);
+                        }
 						Err(e) => {
 							let err_str = e.get_ref().unwrap().to_string();
 							log_error!(logger,
 									   "Warning, failed to broadcast a transaction, this is likely okay but may indicate an error: {}\nTransaction: {}",
 									   err_str,
 									   tx_serialized);
-							print!("Warning, failed to broadcast a transaction, this is likely okay but may indicate an error: {}\n> ", err_str);
+							//print!("Warning, failed to broadcast a transaction, this is likely okay but may indicate an error: {}\n> ", err_str);
 						}
 					}
 			});
@@ -321,9 +323,12 @@ impl BroadcasterInterface for BitcoindClient {
 
 impl ChangeDestinationSource for BitcoindClient {
 	fn get_change_destination_script(&self) -> Result<ScriptBuf, ()> {
-		tokio::task::block_in_place(move || {
+        println!("called get change destination script!");
+		let ret = tokio::task::block_in_place(move || {
 			Ok(self.handle.block_on(async move { self.get_new_address().await.script_pubkey() }))
-		})
+		});
+        println!("returned from change destination script");
+        ret
 	}
 }
 

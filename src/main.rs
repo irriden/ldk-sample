@@ -258,8 +258,7 @@ async fn handle_ldk_events(
 			counterparty_skimmed_fee_msat: _,
 		} => {
 			println!(
-				"\nEVENT: received payment from payment hash {} of {} millisatoshis",
-				payment_hash, amount_msat,
+				"\nEVENT: received payment",
 			);
 			print!("> ");
 			io::stdout().flush().unwrap();
@@ -280,8 +279,7 @@ async fn handle_ldk_events(
 			sender_intended_total_msat: _,
 		} => {
 			println!(
-				"\nEVENT: claimed payment from payment hash {} of {} millisatoshis",
-				payment_hash, amount_msat,
+				"\nEVENT: claimed payment",
 			);
 			print!("> ");
 			io::stdout().flush().unwrap();
@@ -325,16 +323,7 @@ async fn handle_ldk_events(
 					payment.preimage = Some(payment_preimage);
 					payment.status = HTLCStatus::Succeeded;
 					println!(
-						"\nEVENT: successfully sent payment of {} millisatoshis{} from \
-								 payment hash {} with preimage {}",
-						payment.amt_msat,
-						if let Some(fee) = fee_paid_msat {
-							format!(" (fee {} msat)", fee)
-						} else {
-							"".to_string()
-						},
-						payment_hash,
-						payment_preimage
+						"\nEVENT: successfully sent payment"
 					);
 					print!("> ");
 					io::stdout().flush().unwrap();
@@ -363,9 +352,7 @@ async fn handle_ldk_events(
 				);
 			} else {
 				print!(
-					"\nEVENT: Accepted inbound channel ({}) from {}",
-					temporary_channel_id,
-					hex_utils::hex_str(&counterparty_node_id.serialize()),
+					"\nEVENT: Accepted inbound channel",
 				);
 			}
 			print!("> ");
@@ -483,9 +470,7 @@ async fn handle_ldk_events(
 		},
 		Event::ChannelPending { channel_id, counterparty_node_id, .. } => {
 			println!(
-				"\nEVENT: Channel {} with peer {} is pending awaiting funding lock-in!",
-				channel_id,
-				hex_utils::hex_str(&counterparty_node_id.serialize()),
+				"\nEVENT: Channel awaiting funding lock-in!",
 			);
 			print!("> ");
 			io::stdout().flush().unwrap();
@@ -497,9 +482,7 @@ async fn handle_ldk_events(
 			channel_type: _,
 		} => {
 			println!(
-				"\nEVENT: Channel {} with peer {} is ready to be used!",
-				channel_id,
-				hex_utils::hex_str(&counterparty_node_id.serialize()),
+				"\nEVENT: Channel ready to be used!",
 			);
 			print!("> ");
 			io::stdout().flush().unwrap();
@@ -513,10 +496,7 @@ async fn handle_ldk_events(
 			channel_funding_txo: _,
 		} => {
 			println!(
-				"\nEVENT: Channel {} with counterparty {} closed due to: {:?}",
-				channel_id,
-				counterparty_node_id.map(|id| format!("{}", id)).unwrap_or("".to_owned()),
-				reason
+				"\nEVENT: Channel closed",
 			);
 			print!("> ");
 			io::stdout().flush().unwrap();

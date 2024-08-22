@@ -58,8 +58,8 @@ pub(crate) fn parse_startup_args() -> Result<LdkUserInfo, ()> {
 			.or(get_rpc_auth_from_env_file(None))
 			.or(get_rpc_auth_from_cookie(None, Some(network), None))
 			.or({
-				println!("ERROR: unable to get bitcoind RPC username and password");
-				print_rpc_auth_help();
+				//println!("ERROR: unable to get bitcoind RPC username and password");
+				//print_rpc_auth_help();
 				Err(())
 			})?
 	} else if bitcoind_rpc_info_parts.len() == 2 {

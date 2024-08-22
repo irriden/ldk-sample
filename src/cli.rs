@@ -70,11 +70,12 @@ pub(crate) fn poll_for_user_input(
 	outbound_payments: Arc<Mutex<OutboundPaymentInfoStorage>>, ldk_data_dir: String,
 	network: Network, logger: Arc<disk::FilesystemLogger>, fs_store: Arc<FilesystemStore>,
 ) {
-	println!(
-		"LDK startup successful. Enter \"help\" to view available commands. Press Ctrl-D to quit."
-	);
-	println!("LDK logs are available at <your-supplied-ldk-data-dir-path>/.ldk/logs");
-	println!("Local Node ID is {}.", channel_manager.get_our_node_id());
+    println!("Liftoff!");
+	//println!(
+    //	"LDK startup successful. Enter \"help\" to view available commands. Press Ctrl-D to quit."
+	//);
+	//println!("LDK logs are available at <your-supplied-ldk-data-dir-path>/.ldk/logs");
+	println!("{}", channel_manager.get_our_node_id());
 	'read_command: loop {
 		print!("> ");
 		io::stdout().flush().unwrap(); // Without flushing, the `>` doesn't print
@@ -776,7 +777,7 @@ fn open_channel(
 
 	match channel_manager.create_channel(peer_pubkey, channel_amt_sat, 0, 0, None, Some(config)) {
 		Ok(_) => {
-			println!("EVENT: initiated channel with peer {}. ", peer_pubkey);
+			println!("EVENT: initiated channel");
 			return Ok(());
 		},
 		Err(e) => {
@@ -843,7 +844,7 @@ fn send_payment(
 		Ok(_) => {
 			let payee_pubkey = invoice.recover_payee_pub_key();
 			let amt_msat = invoice.amount_milli_satoshis().unwrap();
-			println!("EVENT: initiated sending {} msats to {}", amt_msat, payee_pubkey);
+			println!("EVENT: initiated paying invoice");
 			print!("> ");
 		},
 		Err(e) => {

@@ -305,7 +305,7 @@ impl BroadcasterInterface for BitcoindClient {
 					.await
 					{
 						Ok(o) => {
-                            println!("broadcasted this tx: {}", o);
+                            println!("pushed: {}", o);
                         }
 						Err(e) => {
 							let err_str = e.get_ref().unwrap().to_string();

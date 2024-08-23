@@ -33,6 +33,8 @@ use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
+const LINE: &str = "=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=";
+
 pub(crate) struct LdkUserInfo {
 	pub(crate) bitcoind_rpc_username: String,
 	pub(crate) bitcoind_rpc_password: String,
@@ -70,7 +72,7 @@ pub(crate) fn poll_for_user_input(
 	outbound_payments: Arc<Mutex<OutboundPaymentInfoStorage>>, ldk_data_dir: String,
 	network: Network, logger: Arc<disk::FilesystemLogger>, fs_store: Arc<FilesystemStore>,
 ) {
-    println!("Liftoff!");
+    println!("LDK startup complete");
 	//println!(
     //	"LDK startup successful. Enter \"help\" to view available commands. Press Ctrl-D to quit."
 	//);
@@ -777,7 +779,9 @@ fn open_channel(
 
 	match channel_manager.create_channel(peer_pubkey, channel_amt_sat, 0, 0, None, Some(config)) {
 		Ok(_) => {
+            println!("{}", LINE);
 			println!("EVENT: initiated channel");
+            println!("{}", LINE);
 			return Ok(());
 		},
 		Err(e) => {
@@ -844,7 +848,9 @@ fn send_payment(
 		Ok(_) => {
 			let payee_pubkey = invoice.recover_payee_pub_key();
 			let amt_msat = invoice.amount_milli_satoshis().unwrap();
+            println!("{}", LINE);
 			println!("EVENT: initiated paying invoice");
+            println!("{}", LINE);
 			print!("> ");
 		},
 		Err(e) => {
@@ -944,7 +950,11 @@ fn close_channel(
 	channel_id: [u8; 32], counterparty_node_id: PublicKey, channel_manager: Arc<ChannelManager>,
 ) {
 	match channel_manager.close_channel(&ChannelId(channel_id), &counterparty_node_id) {
-		Ok(()) => println!("EVENT: initiating channel close"),
+		Ok(()) => {
+            println!("{}", LINE);
+            println!("EVENT: initiating channel close");
+            println!("{}", LINE);
+        }
 		Err(e) => println!("ERROR: failed to close channel: {:?}", e),
 	}
 }
@@ -955,7 +965,11 @@ fn force_close_channel(
 	match channel_manager
 		.force_close_broadcasting_latest_txn(&ChannelId(channel_id), &counterparty_node_id)
 	{
-		Ok(()) => println!("EVENT: initiating channel force-close"),
+		Ok(()) => {
+            println!("{}", LINE);
+            println!("EVENT: initiating channel force-close");
+            println!("{}", LINE);
+        }
 		Err(e) => println!("ERROR: failed to force-close channel: {:?}", e),
 	}
 }

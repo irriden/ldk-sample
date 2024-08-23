@@ -720,6 +720,7 @@ dependencies = [
  "frost-ln-signer",
  "hex-conservative 0.1.1",
  "musig2",
+ "rand 0.8.5",
 ]
 
 [[package]]

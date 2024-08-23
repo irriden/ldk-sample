@@ -61,6 +61,8 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, RwLock};
 use std::time::{Duration, SystemTime};
 
+const LINE: &str = "=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=";
+
 pub(crate) const PENDING_SPENDABLE_OUTPUT_DIR: &'static str = "pending_spendable_outputs";
 
 #[derive(Copy, Clone)]
@@ -257,9 +259,9 @@ async fn handle_ldk_events(
 			onion_fields: _,
 			counterparty_skimmed_fee_msat: _,
 		} => {
-			println!(
-				"\nEVENT: received payment",
-			);
+            println!("{}", LINE);
+			println!("EVENT: received payment");
+            println!("{}", LINE);
 			print!("> ");
 			io::stdout().flush().unwrap();
 			let payment_preimage = match purpose {
@@ -278,9 +280,9 @@ async fn handle_ldk_events(
 			htlcs: _,
 			sender_intended_total_msat: _,
 		} => {
-			println!(
-				"\nEVENT: claimed payment",
-			);
+            println!("{}", LINE);
+			println!("EVENT: claimed payment");
+            println!("{}", LINE);
 			print!("> ");
 			io::stdout().flush().unwrap();
 			let (payment_preimage, payment_secret) = match purpose {
@@ -322,9 +324,9 @@ async fn handle_ldk_events(
 				if *id == payment_id.unwrap() {
 					payment.preimage = Some(payment_preimage);
 					payment.status = HTLCStatus::Succeeded;
-					println!(
-						"\nEVENT: successfully sent payment"
-					);
+					println!("{}", LINE);
+					println!("EVENT: successfully sent payment");
+					println!("{}", LINE);
 					print!("> ");
 					io::stdout().flush().unwrap();
 				}
@@ -351,9 +353,9 @@ async fn handle_ldk_events(
 					e,
 				);
 			} else {
-				print!(
-					"\nEVENT: Accepted inbound channel",
-				);
+                println!("{}", LINE);
+                println!("EVENT: Accepted inbound channel");
+                println!("{}", LINE);
 			}
 			print!("> ");
 			io::stdout().flush().unwrap();
@@ -469,9 +471,9 @@ async fn handle_ldk_events(
 			output_sweeper.0.track_spendable_outputs(outputs, channel_id, false, None).unwrap();
 		},
 		Event::ChannelPending { channel_id, counterparty_node_id, .. } => {
-			println!(
-				"\nEVENT: Channel awaiting funding lock-in!",
-			);
+            println!("{}", LINE);
+            println!("EVENT: Channel awaiting funding lock-in!");
+            println!("{}", LINE);
 			print!("> ");
 			io::stdout().flush().unwrap();
 		},
@@ -481,9 +483,9 @@ async fn handle_ldk_events(
 			ref counterparty_node_id,
 			channel_type: _,
 		} => {
-			println!(
-				"\nEVENT: Channel ready to be used!",
-			);
+            println!("{}", LINE);
+            println!("EVENT: Channel ready to be used!");
+            println!("{}", LINE);
 			print!("> ");
 			io::stdout().flush().unwrap();
 		},
@@ -495,9 +497,9 @@ async fn handle_ldk_events(
 			channel_capacity_sats: _,
 			channel_funding_txo: _,
 		} => {
-			println!(
-				"\nEVENT: Channel closed",
-			);
+            println!("{}", LINE);
+            println!("EVENT: Channel closed");
+            println!("{}", LINE);
 			print!("> ");
 			io::stdout().flush().unwrap();
 		},
